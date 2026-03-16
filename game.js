@@ -387,7 +387,11 @@ function bindEvents() {
 
   el.readBtn?.addEventListener("click", readCurrentQuestion);
   el.nextBtn?.addEventListener("click", handleNextStep);
-  el.retryBtn?.addEventListener("click", () => showScreen("gameScreen"));
+
+  el.retryBtn?.addEventListener("click", () => {
+    renderQuestion();
+    showScreen("gameScreen");
+  });
 
   el.startReviewBtn?.addEventListener("click", startReviewMode);
   el.skipReviewBtn?.addEventListener("click", () => {
@@ -528,6 +532,7 @@ function openWorldIntro(worldIndex) {
   state.reviewMode = false;
   state.reviewQueue = [];
   state.wrongQuestions = [];
+  state.shuffledOptions = [];
 
   const world = getCurrentWorld();
   el.worldIntroImage.src = world.introImage;
@@ -668,6 +673,7 @@ function startReviewMode() {
   const world = getCurrentWorld();
   state.reviewQueue = world.questions.filter(q => state.wrongQuestions.includes(q.id));
   state.currentQuestionIndex = 0;
+  state.shuffledOptions = [];
   renderQuestion();
   showScreen("gameScreen");
 }
