@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>誇誇星大冒險 v3</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <audio id="bgm" loop preload="metadata"></audio>
+  <audio id="sfxCorrect" preload="metadata"></audio>
+  <audio id="sfxWrong" preload="metadata"></audio>
+  <audio id="sfxWorldClear" preload="metadata"></audio>
+  <audio id="sfxFinalClear" preload="metadata"></audio>
+
+  <div class="bg-layer"></div>
+
+  <div class="app-shell">
+    <header class="topbar glass">
+      <div class="brand">
+        <img class="brand-logo" src="assets/images/ui/logo-star.png" alt="logo" />
+        <div>
+          <h1>誇誇星大冒險</h1>
+          <p>誇張法互動學習遊戲 · 最終版 v3</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button id="musicToggleBtn" class="icon-btn" type="button" aria-label="切換音樂">🔈</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="homeScreen" class="screen active">
+        <div class="hero-layout">
+          <div class="glass hero-left">
+            <p class="tag">中文修辭互動遊戲</p>
+            <h2 id="homeTitle"></h2>
+            <p id="homeSubtitle" class="lead"></p>
+            <p id="homeIntro1" class="story-line"></p>
+            <p id="homeIntro2" class="story-line"></p>
+
+            <div class="hero-actions">
+              <button id="startBtn" class="primary-btn" type="button">開始冒險</button>
+              <button id="showHowBtn" class="ghost-btn" type="button">玩法說明</button>
+            </div>
+          </div>
+
+          <div class="glass hero-right">
+            <img
+              id="homeCharacterImg"
+              class="hero-main-image"
+              src="assets/images/characters/fox-guide.png"
+              alt="主角插圖"
+            />
+            <div class="hero-badges">
+              <span>⭐ 收集誇張星</span>
+              <span>🗣️ 語音朗讀</span>
+              <span>🔁 錯題重溫</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="mapScreen" class="screen">
+        <div class="glass section-card">
+          <div class="section-head">
+            <div>
+              <p class="tag">世界地圖</p>
+              <h2>選擇冒險世界</h2>
+              <p class="sub">每完成一個世界，就能找回更多誇張星。</p>
+            </div>
+            <div class="hud-card">
+              <span>⭐</span>
+              <div>
+                <small>總星星</small>
+                <strong id="totalStarsText">0</strong>
+              </div>
+            </div>
+          </div>
+
+          <div id="worldCards" class="world-grid"></div>
+
+          <div class="section-foot">
+            <button id="backHomeBtn" class="ghost-btn" type="button">返回首頁</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="worldIntroScreen" class="screen">
+        <div class="glass intro-panel">
+          <img id="worldIntroImage" class="intro-image" src="" alt="世界插圖" />
+          <div class="intro-content">
+            <p class="tag">世界開場</p>
+            <h2 id="worldIntroTitle"></h2>
+            <p id="worldIntroDesc" class="lead"></p>
+            <button id="enterWorldBtn" class="primary-btn" type="button">進入世界</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="gameScreen" class="screen">
+        <div class="game-layout">
+          <aside class="glass side-panel">
+            <div class="mentor-card">
+              <img id="mentorImg" class="mentor-img" src="assets/images/characters/owl-teacher.png" alt="導師" />
+              <div>
+                <p class="small-label">修辭提示</p>
+                <h3 id="worldNameText"></h3>
+                <p id="guideText" class="mentor-line">請找出最誇張的說法！</p>
+              </div>
+            </div>
+
+            <div class="world-badge-box">
+              <img id="worldStageThumb" class="world-thumb" src="" alt="世界場景" />
+              <p id="worldIntroText" class="side-sub"></p>
+            </div>
+
+            <div class="status-stack">
+              <div class="status-card">
+                <span>進度</span>
+                <strong id="progressText">1 / 6</strong>
+              </div>
+              <div class="status-card">
+                <span>星星</span>
+                <strong id="scoreText">0</strong>
+              </div>
+            </div>
+
+            <button id="mapBtn" class="ghost-btn full-btn" type="button">返回地圖</button>
+          </aside>
+
+          <div class="glass main-stage">
+            <div class="stage-top">
+              <div>
+                <p id="questionTitle" class="small-label"></p>
+                <h2 id="questionText"></h2>
+              </div>
+              <button id="readBtn" class="ghost-btn small-btn" type="button">讀一次</button>
+            </div>
+
+            <div class="progress-track">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
+
+            <div class="stage-scene">
+              <div class="scene-card">
+                <img id="questionImage" class="question-image" src="" alt="題目插圖" />
+                <div class="scene-bubble">
+                  <span class="bubble-label">情境提示</span>
+                  <p id="promptText"></p>
+                </div>
+              </div>
+            </div>
+
+            <div id="optionsWrap" class="options-wrap"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="feedbackScreen" class="screen">
+        <div class="glass result-panel">
+          <img id="feedbackImage" class="result-image" src="assets/images/ui/result-star.png" alt="結果圖示" />
+          <p id="feedbackTag" class="tag center"></p>
+          <h2 id="feedbackTitle"></h2>
+          <p id="feedbackText" class="lead center"></p>
+
+          <div class="meaning-card">
+            <p class="small-label">真正意思</p>
+            <p id="explainText"></p>
+          </div>
+
+          <div class="feedback-actions center-actions">
+            <button id="nextBtn" class="primary-btn" type="button">下一題</button>
+            <button id="retryBtn" class="ghost-btn hidden" type="button">再試一次</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="reviewScreen" class="screen">
+        <div class="glass result-panel">
+          <p class="tag center">錯題重溫</p>
+          <h2>再挑戰答錯的題目</h2>
+          <p id="reviewSummary" class="lead center"></p>
+          <div class="feedback-actions center-actions">
+            <button id="startReviewBtn" class="primary-btn" type="button">開始重溫</button>
+            <button id="skipReviewBtn" class="ghost-btn" type="button">先結算世界</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="worldCompleteScreen" class="screen">
+        <div class="glass result-panel">
+          <img class="result-image large" src="assets/images/ui/result-star.png" alt="世界完成" />
+          <p class="tag center">世界完成</p>
+          <h2 id="worldCompleteTitle"></h2>
+          <p id="worldCompleteText" class="lead center"></p>
+
+          <div class="stats-grid">
+            <div class="stat-tile">
+              <small>本世界答對</small>
+              <strong id="worldScoreText"></strong>
+            </div>
+            <div class="stat-tile">
+              <small>總星星</small>
+              <strong id="worldTotalStarsText"></strong>
+            </div>
+          </div>
+
+          <div class="feedback-actions center-actions">
+            <button id="nextWorldBtn" class="primary-btn" type="button">進入下一個世界</button>
+            <button id="worldMapBtn" class="ghost-btn" type="button">返回世界地圖</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="finalScreen" class="screen">
+        <div class="glass result-panel">
+          <img class="result-image crown-image large" src="assets/images/ui/crown.png" alt="皇冠" />
+          <p class="tag center">全部通關</p>
+          <h2>恭喜你成為修辭小勇士！</h2>
+          <p class="lead center">
+            你成功找回全部誇張星，現在已經學會用誇張法把句子說得更生動了！
+          </p>
+
+          <div class="stats-grid">
+            <div class="stat-tile">
+              <small>總星星</small>
+              <strong id="finalStarsText">0</strong>
+            </div>
+            <div class="stat-tile">
+              <small>完成世界</small>
+              <strong id="finalWorldsText">3 / 3</strong>
+            </div>
+          </div>
+
+          <div class="feedback-actions center-actions">
+            <button id="playAgainBtn" class="primary-btn" type="button">再玩一次</button>
+            <button id="finalHomeBtn" class="ghost-btn" type="button">返回首頁</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="howModal" class="modal hidden">
+    <div class="glass modal-card">
+      <p class="tag center">玩法說明</p>
+      <h2>怎樣玩？</h2>
+      <ul id="howList" class="how-list"></ul>
+      <button id="closeHowBtn" class="primary-btn" type="button">我知道了</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
